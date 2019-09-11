@@ -5,10 +5,8 @@ std::string cipher(std::string &in, char shift)
 {
     std::string result = in;
     int i = -1;
-    while (in[++i])
+    while (char original = in[++i])
     {
-        char original = in[i];
-
         bool lowerLetter = original >= 'a' && original <= 'z';
         bool upperLetter = original >= 'A' && original <= 'Z';
 
@@ -27,22 +25,34 @@ std::string mapping_cipher(std::string &in, std::string mapping)
     std::string result = in;
 
     int i = -1;
-    while (in[++i])
+    while (char original = in[++i])
     {
-        char original = in[i];
-
         bool lowerLetter = original >= 'a' && original <= 'z';
         bool upperLetter = original >= 'A' && original <= 'Z';
 
         if (lowerLetter || upperLetter)
         {
             char base = lowerLetter ? 'a' : 'A';
-            result[i] = mapping[original - base];
+            result[i] = mapping[original - base] + base - 'a';
         }
         else result[i] = in[i]; // non-letter        
     }
 
     return result;
+}
+
+std::string flip_mapping(std::string mapping) 
+{   
+    std::string newMapping = mapping;
+
+    int i = -1;
+    while (char original = mapping[++i])
+    {
+        if (original < 'a' || original > 'z') throw std::runtime_error("only a-z allowed in mapping string");
+        newMapping[original - 'a'] = i + 'a';
+    }
+
+    return newMapping;
 }
 
 
@@ -80,7 +90,7 @@ int main(int argc, char *argv[])
     while (!honorCasing && in[++i]) in[i] = std::tolower(in[i]);
 
     if (isMapping)
-        std::cout << "Mapping_cipher output is: " << mapping_cipher(in, mapping) << std::endl;
+        std::cout << "Mapping_cipher output is: " << mapping_cipher(in, (decrypt)? flip_mapping(mapping) : mapping) << std::endl;
     else
         std::cout << "Cipher output is: " << cipher(in, std::atoi(mapping.c_str())) << std::endl;
 
