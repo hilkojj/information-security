@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
     bool honorCasing = false, decrypt = false, isMapping = false;
     std::string mapping = "";
 
-    for (int i = 1; i < argc; i++) // the 0'st argument is the full string withch is useless to us
+    for (int i = 1; i < argc; i++) // the 0'st argument is the full string wich is useless to us
     {
         if (std::string(argv[i]) == "-o")
             honorCasing = true;
