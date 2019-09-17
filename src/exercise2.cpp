@@ -55,9 +55,22 @@ std::string flip_mapping(std::string mapping)
     return newMapping;
 }
 
+void print_help() {
+    std::cout << std::endl <<
+        "Usage: substitution [-o] [-d] mapping" << std::endl <<
+        "Where:" << std::endl <<
+        "   -o: keep non-letters as is, honor letter casing" << std::endl <<
+        "   -d: decrypt" << std::endl <<
+        "   mapping: 26 letter char-mapping" << std::endl <<
+        "            or an int-value" << std::endl << std::endl << std::endl;
+}
+
 
 int main(int argc, char *argv[])
 {
+    if (argc == 1)
+        print_help();
+    
     bool honorCasing = false, decrypt = false, isMapping = false;
     std::string mapping = "";
 
@@ -74,17 +87,20 @@ int main(int argc, char *argv[])
                  isMapping = true;
             else if (mapping.find_first_not_of("0123456789") != std::string::npos) {
                 std::cout << "We did not understand your mapping. It must be of length 26 or a number." << std::endl;
+                print_help();
                 return 0;
             }
             
         } else {
             std::cout << "We did not understand " << std::string(argv[i]) << std::endl;
+            print_help();
             return 0;
         }
     }
 
     std::string in;
-    std::getline(std::cin, in);
+    std::string line;
+    while(std::getline(std::cin, line)) in += line + "\n";
 
     int i = -1;
     while (!honorCasing && in[++i]) in[i] = std::tolower(in[i]);
