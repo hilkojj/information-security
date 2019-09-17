@@ -68,7 +68,7 @@ void print_help() {
 
 int main(int argc, char *argv[])
 {
-    if (argc == 1)
+    if (argc == 1) // We now also print help if no arguments are given in
         print_help();
     
     bool honorCasing = false, decrypt = false, isMapping = false;
@@ -100,7 +100,7 @@ int main(int argc, char *argv[])
 
     std::string in;
     std::string line;
-    while(std::getline(std::cin, line)) in += line + "\n";
+    while(std::getline(std::cin, line)) in += line + "\n"; // we now keep reading until a EOF
 
     int i = -1;
     while (!honorCasing && in[++i]) in[i] = std::tolower(in[i]);
