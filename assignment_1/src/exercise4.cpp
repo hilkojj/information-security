@@ -22,23 +22,17 @@ double sum(std::map<char, int> a)
 double standard_deviation(std::map<char, int> x)
 {
     return std::sqrt( sum((x * x)) / 26.0 - std::pow( sum(x) / 26.0, 2) );
-    // double length = x.size();
-    // double E = 0;
-    // double Ravg = sum(x) / length;
-    // for (auto ri : x)
-    //     E += std::pow(ri.second - Ravg, 2);
-    // return std::sqrt( E / (length-1));
 }
 
-void magic(std::string data)
+int get_most_likely_keysize(std::string data)
 {
     int sd[16];
     for (int k = 5; k <= 15; k++)
     {
         double sum = 0;
-        std::map<char, int> freq;
         for (int keyI = 0; keyI < k; keyI++)
         {
+            std::map<char, int> freq;
             for (int i = keyI; i < data.length(); i += k)
                 freq[data[i]]++;
 
@@ -65,6 +59,8 @@ void magic(std::string data)
         }
     }
     std::cout << "Peak: " << peakK << "\n\n\n";
+
+    return peakK;
 }
 
 int main()
@@ -72,13 +68,7 @@ int main()
     std::string data, line;
     while(std::getline(std::cin, line)) data += line + "\n"; // we now keep reading until an EOF
 
-    magic(data);
-
-    // std::map<char, int> map{{'a', 1}, {'b', 3}, {'q', 2}};
-
-    // std::cout << standard_deviation(map) << std::endl;
-
-    int block_size = 9;
+    int block_size = get_most_likely_keysize(data);;
 
     auto fr = new std::map<char, int>[block_size];
 
