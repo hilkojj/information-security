@@ -21,13 +21,13 @@ double sum(std::map<char, int> a)
 
 double standard_deviation(std::map<char, int> x)
 {
-    // return std::sqrt( sum((x * x)) / 26.0 - std::pow( sum(x) / 26.0, 2) );
-    double length = x.size();
-    double E = 0;
-    double Ravg = sum(x) / length;
-    for (auto ri : x)
-        E += std::pow(ri.second - Ravg, 2);
-    return std::sqrt( E / (length - 1));
+    return std::sqrt( sum((x * x)) / 26.0 - std::pow( sum(x) / 26.0, 2) );
+    // double length = x.size();
+    // double E = 0;
+    // double Ravg = sum(x) / length;
+    // for (auto ri : x)
+    //     E += std::pow(ri.second - Ravg, 2);
+    // return std::sqrt( E / (length-1));
 }
 
 void magic(std::string data)
@@ -36,14 +36,15 @@ void magic(std::string data)
     for (int k = 5; k <= 15; k++)
     {
         double sum = 0;
-        for (int block = 0; block < data.length() / k; block++)
+        std::map<char, int> freq;
+        for (int keyI = 0; keyI < k; keyI++)
         {
-            std::map<char, int> freq;
-            for (int i = block * k; i < block * k + k; i++)
+            for (int i = keyI; i < data.length(); i += k)
                 freq[data[i]]++;
-            
+
             sum += standard_deviation(freq);
         }
+            
         sd[k] = sum;
         std::cout << "blocksize: " << k << ", SD: " << sum << "\n";
     }
@@ -72,6 +73,10 @@ int main()
     while(std::getline(std::cin, line)) data += line + "\n"; // we now keep reading until an EOF
 
     magic(data);
+
+    // std::map<char, int> map{{'a', 1}, {'b', 3}, {'q', 2}};
+
+    // std::cout << standard_deviation(map) << std::endl;
 
     int block_size = 9;
 
