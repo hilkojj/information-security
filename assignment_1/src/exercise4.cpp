@@ -79,29 +79,38 @@ int main()
     }
     
 
-    std::string key;
+    std::string keyCandidates[3];
     for (int j = 0; j < block_size; j++)
     {
         auto &freq = fr[j];
 
-        char maxChar;
-        int maxFreq = 0;
+        char maxChar[3];
+        int maxFreq[3] = {0, 0, 0};
 
-        for (auto x : freq) if (x.second > maxFreq)
+        for (auto x : freq) if (x.second > maxFreq[0])
         {
-            maxFreq = x.second;
-            maxChar = x.first;
+            maxFreq[2] = maxFreq[1];
+            maxFreq[1] = maxFreq[0];
+            maxFreq[0] = x.second;
+
+            maxChar[2] = maxChar[1];
+            maxChar[1] = maxChar[0];
+            maxChar[0] = x.first;
         }
 
-        char keyChar = 'a' + ((maxChar - 'e' + 26) % 26);
-        key += keyChar;
-
-        std::cout << keyChar << " ";
+        for (int i = 0; i < 3; i++)
+        {
+            char keyChar = 'a' + ((maxChar[i] - 'e' + 26) % 26);
+            keyCandidates[i] += keyChar;
+        }
     }
-    std::cout << "\n";
-
-
+    std::cout << "Most likely: " << keyCandidates[0] << "\n";
+    std::cout << "2nd best   : " << keyCandidates[1] << "\n";
+    std::cout << "3rd        : " << keyCandidates[2] << "\n";
+    
     std::cout << "\n\n\n----------------\n\n\n";
+
+    std::string key = keyCandidates[0];
 
     int i = -1;
     while (data[++i])
