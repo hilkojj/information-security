@@ -68,8 +68,11 @@ void print_help() {
 
 int main(int argc, char *argv[])
 {
-    if (argc == 1) // We now also print help if no arguments are given in
-        print_help();
+    if (argc == 1)
+    {
+        print_help(); // We now also print help if no arguments are given in
+        return -1;
+    }
     
     bool honorCasing = false, decrypt = false, isMapping = false;
     std::string mapping = "";
