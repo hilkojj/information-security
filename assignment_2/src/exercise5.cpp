@@ -7,8 +7,8 @@ typedef u_int8_t byte;
 #define w 32
 
 // The additional parentacies around the X's are there to make shure the math rules do not override what we asume will happen
-#define ROTR(n, x)     ((x) << n) | ((x) >> (w - n))
-#define SHR(n, x)      ((x) >> n)
+#define ROTR(n, x)     ((x) << n) | ((x) >> (w - n))  // circular right shift
+#define SHR(n, x)      ((x) >> n)                     // right shift
 
 #define Ch(x, y, z)    (x & y) ^ (~x & z)
 #define Maj(x, y, z)   (x & y) ^ (x & z) ^ (y & z)
@@ -18,18 +18,22 @@ typedef u_int8_t byte;
 #define Sigma0(x)      (ROTR(7,  (x)) ^ ROTR(18, (x)) ^  SHR(3,  (x)))
 #define Sigma1(x)      (ROTR(17, (x)) ^ ROTR(19, (x)) ^  SHR(10, (x)))
 
+
+std::vector<byte> bytes;       // Plain and padded message bytes
+long l = 0;                    // Length of the message, M, in bits.
+long m = 512;                  // Number of bits in a message block, M(i).
+long N = 1;                    // Number of blocks in the padded message.
+
 /**
  * this function is implemented by using the following file:
  * http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf
  * 
  * ASUMPTIONS: Addition (+) is performed modulo 2^32
  */
-std::string sha256(std::string M) {
-    int N = 1; // TODO: figure out what this value should be
+std::string sha256(const std::string M) {
 
-    // int l = M.length() * 8;
-    // if (l >= std::pow(2, 64))
-    //     throw std::invalid_argument("SHA-256 may be used to hash a message, M, having a length of l bits, where 0 <= l < 2^64");
+    if (l >= std::pow(2, 64))
+        throw std::invalid_argument("SHA-256 may be used to hash a message, M, having a length of l bits, where 0 <= l < 2^64");
 
     // These words represent the first thirty-two bits of the fractional parts of the cube roots of the 
     // first sixty-four prime numbers  
@@ -87,7 +91,7 @@ std::string sha256(std::string M) {
         // 3. For t=0 to 63:
         for (int t=0; t<=63; t++) {
             T1 = h + Summation1(e) + Ch(e, f, g) + K[t] + W[t];
-            T1 = Summation0(a) + Maj(a, b, c);
+            T2 = Summation0(a) + Maj(a, b, c);
             h = g;
             g = f;
             f = e;
@@ -110,16 +114,18 @@ std::string sha256(std::string M) {
     }
     
     // tmp print
-    for (int n=0; n<N; n++)
+    for (int n=0; n<N; n++) {
         for (int z=0; z<8; z++) 
             std::cout << std::hex << H[n][z];
-    std::cout << std::endl;
+        std::cout << std::endl;
+    }
     
     return "Mooi";
 }
 
 int main() {
-    std::cout << sha256("Feistel") << std::endl;
+    std::cout << sha256("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZWOWOWOWOOWOW") << std::endl;
+    // Feistel
     // 184b4d16bbe3200c5a5f500cc09efa68cddd42cbda27c1e49fa7a0f2e2735007
     return 0;
 }

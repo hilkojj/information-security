@@ -4,6 +4,13 @@ import sys
 if sys.version_info[0] < 3:
     raise Exception("Python 3 changed how generators work so version 2 is not supported")
 
+def ancii_to_byte(e):
+    return ord(e)
+def byte_to_ancii(e):
+    return chr(e)
+def str_to_bytes(arr):
+    return [ancii_to_byte(e) for e in arr]
+
 def pseudo_random_generation_algorithm(S):
     i = 0; j = 0
     while True:
@@ -15,7 +22,8 @@ def pseudo_random_generation_algorithm(S):
         yield K
 
 # https://en.wikipedia.org/wiki/RC4
-def RC4(text, key):
+def RC4(text_str, key_str):
+    key = str_to_bytes(key_str)
     # Init
     S = [0]*256
     for i in range(256):
@@ -33,17 +41,8 @@ def RC4(text, key):
     for i in range(256): # TODO I have no idea how the ignoring works
         keystream.__next__()
 
-    for b in text:
-        yield b ^ keystream.__next__() # a python3 thing
-
-
-def ancii_to_byte(e):
-    return ord(e)
-def byte_to_ancii(e):
-    return chr(e)
-def to_bytes(arr):
-    return [ancii_to_byte(e) for e in arr]
-
+    for b in text_str:
+        yield ancii_to_byte(b) ^ keystream.__next__() # __next()__  is a python3 thing
 
 # https://en.wikipedia.org/wiki/RC4#Test_vectors
 input_key = "key"
@@ -51,5 +50,5 @@ input_text = "Plaintext"
 output_keystream = "EB9F7781B734CA72A719..."
 output_ciphertext = "BBF316E8D940AF0AD3"
 
-for c in RC4(to_bytes(input_text), to_bytes(input_key)):
-    print(byte_to_ancii(c))
+for c in RC4(input_text, input_key):
+    print(hex(c))
