@@ -3,7 +3,7 @@
 #include <vector>
 #include <bits/stdc++.h> 
 
-typedef unsigned char byte;
+typedef int byte;
 
 template<typename T, size_t n>
 void print_array(T const(& arr)[n])
@@ -36,8 +36,9 @@ void RC4(byte text[], int L, byte key[], int N)
     int i = 0; j = 0;
 
     // Pseudo-random generation-algoritme
-    for (int index=300; index > 0; index--)
-    {
+    // for (int index=300; index >= 0; index--)
+    // {
+        int index = 0;
         int textIndex = -1 - index;
         std::cout << "\n" << index << " ";
         while (++textIndex < L)
@@ -47,17 +48,25 @@ void RC4(byte text[], int L, byte key[], int N)
             std::swap(S[i], S[j]);
             byte K = S[(S[i] + S[j]) % 256];
 
-            if (textIndex >= 0) std::cout << (char)(text[textIndex] ^ K);
+            if (textIndex >= 0)
+            {
+                std::cout << K << '^' << text[textIndex] << " = ";
+                std::cout << std::hex << (text[textIndex] ^ K) << '\n';
+            }
+
+            // std::coi
+
+            // if (textIndex >= 0) 
         }
 
-    }
+    // }
 }
 
 int main(int argc, char *argv[])
 {
     // https://en.wikipedia.org/wiki/RC4#Test_vectors
-    byte input_key[] = "Key";
-    byte input_text[] = {0xBB, 0xF3, 0x16, 0xE8, 0xD9, 0x40, 0xAF, 0x0A, 0xD3}; // "Plaintext"
+    byte input_key[] = {'K', 'e', 'y'};
+    byte input_text[] = {'P', 'l', 'a', 'i', 'n', 't', 'e', 'x', 't'}; // "Plaintext"
 
     // std::string output_keystream = "EB9F7781B734CA72A719...";
     // std::string output_ciphertext = "BBF316E8D940AF0AD3";
