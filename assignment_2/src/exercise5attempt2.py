@@ -1,13 +1,10 @@
 import hashlib
 import sys
 
-password = "Harmony" # "Feistel" and "Harmony" run aditional assertions
+# "Feistel" and "Harmony" run aditional assertions
+password = input("Please provide us a password: ") 
 sum1 = hashlib.sha256(password.encode())
 sum2 = hashlib.sha256(sum1.hexdigest().encode())
-
-if password == "Feistel":
-    assert sum1.hexdigest() == "184b4d16bbe3200c5a5f500cc09efa68cddd42cbda27c1e49fa7a0f2e2735007"
-    assert sum2.hexdigest() == "bd11fd28eabd0b87f2ff4595a50041bfb882bbf8ae058ea5d677c7da07d43786"
 
 key = sum1.digest() + sum2.digest()
 assert len(key) == 64
@@ -20,7 +17,6 @@ def xor(half_block_a, half_block_b):
     return new_block
     
 assert xor([1, 1, 2, 2], [1, 2, 1, 2]) == [0, 3, 3, 0]
-
 
 def f(key, round):
     return key[4*round:(4*round)+4]
@@ -56,6 +52,9 @@ for b in feistel_bytes:
     print(chr(b), end="")
 
 
+if password == "Feistel":
+    assert sum1.hexdigest() == "184b4d16bbe3200c5a5f500cc09efa68cddd42cbda27c1e49fa7a0f2e2735007"
+    assert sum2.hexdigest() == "bd11fd28eabd0b87f2ff4595a50041bfb882bbf8ae058ea5d677c7da07d43786"
 
 if password == "Harmony":
     example_harmony = [84, 104, 101, 32, 83, 121, 109, 112, 104, 111, 110, 121, 32, 111, 102, 32, 82, 101, 97, 108, 105, 116, 121, 32, 116, 104, 101, 32, 72, 97, 114, 109, 111, 110, 121, 32, 111, 102, 32, 67, 104, 97, 111, 115, 46, 32, 84, 104, 101, 32, 72, 97, 114, 109, 111, 110, 121, 32, 111, 102, 32, 67, 104, 97, 111, 115, 32, 105, 115, 32, 116, 104, 101, 32, 83, 121, 109, 112, 104, 111, 110, 121, 32, 111, 102, 32, 67, 111, 108, 111, 114, 115, 46, 120, 120, 10]
