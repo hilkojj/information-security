@@ -18,7 +18,7 @@ long pow_mod_n(int base, int power, int n)
 
 int main(int argc, char *argv[]) 
 {
-    int a=43210, b=7, c=99987;
-    std::cout << power_mod_n_iterative(a, b, c) << std::endl;
-    std::cout <<             pow_mod_n(a, b, c) << std::endl;
+    int a=43210, b=23456, c=99987;
+    std::cout << "Iterative: " << power_mod_n_iterative(a, b, c) << std::endl;
+    std::cout << "Recursive: " <<             pow_mod_n(a, b, c) << std::endl;
 }
