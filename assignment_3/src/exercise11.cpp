@@ -18,10 +18,6 @@ long pow_mod_n_recursive(int base, int power, int n)
     return (base * pow_mod_n_recursive(base, power-1, n)) % n;
 }
 
-// if (NTH_BIT(power, index) == true) printf("(%ld,%ld) mod %ld * %ld", value, value, n, base);
-// else printf("(%ld,%ld) mod %ld", value, value, n);
-// std::cout << " = " << value << "\n";
-
 // We only garantie a correct implementation for interger values
 long pow_mod_n(long base, long power, long n, long value = 1, long index = 32)
 {
@@ -33,12 +29,18 @@ long pow_mod_n(long base, long power, long n, long value = 1, long index = 32)
     return pow_mod_n(base, power, n, value, --index); // next bit
 }
 
-
 int main(int argc, char *argv[]) 
 {
-    int a=43210, b=23456, c=99987;
-    // int a=3, b=13, c=7;
+    // int a=43210, b=23456, c=99987;
+    int a=0, b=0, c=0; 
+    std::cout << "Base: "; std::cin >> a;
+    std::cout << "Power: "; std::cin >> b;
+    std::cout << "Mod: "; std::cin >> c;
+    
+    std::cout << "\n\n";
     std::cout << "Iterative: " << power_mod_n_iterative(a, b, c) << std::endl;
     std::cout << "Recursive: " <<   pow_mod_n_recursive(a, b, c) << std::endl;
     std::cout << "Slides: " <<                pow_mod_n(a, b, c) << std::endl;
+    // We evaluate the results of the binary version with a recursive and 
+    //  interative version that take O(power)
 }
