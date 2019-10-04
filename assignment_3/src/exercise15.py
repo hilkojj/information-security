@@ -34,7 +34,7 @@ bobs_message_for_alice = P(P1.x * bob_m,    P1.y * bob_m)
 # Binary addition
 m = 57
 binary_m = int_to_binary_array(m)
-print(binary_m)
+print(m, "=", binary_m)
 
 additions = 0
 if (m != 0):
@@ -46,5 +46,23 @@ if (m != 0):
 
 print("\nCalculating the numbers: ", len(binary_m), "\tAdding the numbers", additions)
 print(len(binary_m) + additions, "additions instead of", m)
+print("\nP1 contains 2 numbers so we need to do it 2 times so ", 2 * (len(binary_m) + additions), " additions instead of", 2*m)
 
-# TODO: EXPLAIN WHY
+"""
+P0 = 3        (2^0)   3                 P0 = 6        (2^0)   6    
+P0 + P0 = P1  (2^1)   6                 P0 + P0 = P1  (2^1)   12
+P1 + P1 = P2  (2^2)   12                P1 + P1 = P2  (2^2)   24
+P2 + P2 = P3  (2^3)   24                P2 + P2 = P3  (2^3)   48
+P3 + P3 = P4  (2^4)   48                P3 + P3 = P4  (2^4)   96
+P4 + P4 = P5  (2^5)   96                P4 + P4 = P5  (2^5)   192
+
+57 = 0b0111001 
+
+57 * P0 = ((P5 + P4) + P3) + P0         57 * P0 = ((P5 + P4) + P3) + P0
+57 * 3  = ((96 + 48) + 24) + 3          57 * 6  = ((192+ 96) + 96) + 6
+
+9 additions for 57 * 3                  9 additions for 57 * 6
+
+18 additions in total
+
+"""
