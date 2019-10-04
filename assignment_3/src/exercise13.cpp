@@ -36,14 +36,14 @@ std::vector<int> generator(int p)
                 potentionalG[g] = 1;
 
     std::vector<int> indices;
-    int i = 0;
+    int i = -1;
     for (bool pG : potentionalG)
     {
-        if (!pG) {
+        if (++i < 2) continue;
+        if (!pG ) {
             std::cout << '1';
             indices.push_back(i);
         } else std::cout << '0';
-        i++;
     }
     std::cout << '\n';
     return indices;
@@ -55,8 +55,9 @@ int main()
 // 
     // for (int x : primeFactorSet(7919 - 1)) std::cout << x << "\n";
 
-    std::cout << generator(23)[2] << "\n";
+    std::cout << generator(23)[0] << "\n";
 
 
     return 0;
 }
+//  
